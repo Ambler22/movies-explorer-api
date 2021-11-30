@@ -23,10 +23,10 @@ router.post('/signin', celebrate({
   }),
 }), login);
 
+router.use(auth);
+
 router.use('/users', userRouter);
 router.use('/movies', movieRouter);
-
-router.use(auth);
 
 //router.use('/', require('./users'));
 //router.use('/', require('./movies'));
