@@ -1,39 +1,10 @@
 const router = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
-const validator = require('validator');
-
-const validation = (value) => {
-  const result = validator.isURL(value);
-  if (result) {
-    return value;
-  }
-  throw new Error('Введена некорректная ссылка.');
-};
 
 const { createMovie, getMovies, deleteMovieById } = require('../controllers/movies');
+const { validateCreateMovie, validateDeleteMovieById } = require('../middlewares/validation');
 
 router.get('/', getMovies);
-
-router.post('/', celebrate({
-  body: Joi.object().keys({
-    country: Joi.string().required(),
-    director: Joi.string().required(),
-    duration: Joi.number().required(),
-    year: Joi.string().required(),
-    description: Joi.string().required(),
-    image: Joi.string().required().custom(validation),
-    trailer: Joi.string().required().custom(validation),
-    nameRU: Joi.string().required(),
-    nameEN: Joi.string().required(),
-    thumbnail: Joi.string().required().custom(validation),
-    movieId: Joi.number().required(),
-  }),
-}), createMovie);
-
-router.delete('/:movieId', celebrate({
-  params: Joi.object().keys({
-    movieId: Joi.string().required().hex().length(24),
-  }),
-}), deleteMovieById);
+router.post('/', validateCreateMovie, createMovie);
+router.delete('/:movieId', validateDeleteMovieById, deleteMovieById);
 
 module.exports = router;

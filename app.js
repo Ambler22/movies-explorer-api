@@ -9,6 +9,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const error = require('./middlewares/error');
 const { limiter } = require('./middlewares/limiter');
 
+// eslint-disable-next-line no-undef
 const { PORT = 3000 } = process.env;
 const app = express();
 

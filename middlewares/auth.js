@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const UnauthorizedError = require('../errors/unauthorized-error');
 
+// eslint-disable-next-line no-undef
 const { JWT_SECRET = 'dev-secret' } = process.env;
 
 module.exports = (req, res, next) => {
