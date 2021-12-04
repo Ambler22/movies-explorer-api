@@ -5,7 +5,6 @@ const User = require('../models/user');
 
 const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-error');
-const ServerError = require('../errors/server-error');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
 
@@ -29,8 +28,11 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { email, name } = req.body;
-  User.findByIdAndUpdate(req.user._id, { email, name },
-    { new: true, runValidators: true })
+  User.findByIdAndUpdate(
+    req.user._id,
+    { email, name },
+    { new: true, runValidators: true },
+  )
     .then((user) => {
       if (!user) {
         next(new NotFoundError('Пользователь по указанному _id не найден.'));
@@ -40,46 +42,9 @@ module.exports.updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные.'));
-      } else if (err.name === 'CastError') {
-        next(new BadRequestError('Невалидный id.'));
-      } else {
-        next(new ServerError('Произошла ошибка'));
-      }
-    });
-};
-
-module.exports.createUser = (req, res, next) => {
-  const {
-    email, password, name,
-  } = req.body;
-
-  User.findOne({ email })
-    .then((mail) => {
-      if (mail) {
-        throw new ConflictError('Такой пользователь уже существует.');
-      }
-
-      bcrypt.hash(password, 10, (err, hash) => {
-        if (err) {
-          throw new ServerError('Произошла ошибка');
-        }
-
-        User.create({
-          email, password: hash, name,
-        })
-          .then((user) => {
-            res.send({
-              id: user._id,
-              email: user.email,
-              name: user.name,
-            });
-          });
-      });
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные.'));
+        next(new BadRequestError('Переданы некорректные данные'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Этот e-mail уже используется'));
       } else {
         next(err);
       }
@@ -102,7 +67,6 @@ module.exports.login = (req, res, next) => {
             throw new UnauthorizedError('Неправильные почта или пароль.');
           }
 
-          // eslint-disable-next-line no-undef
           const { NODE_ENV, JWT_SECRET } = process.env;
 
           const token = jwt.sign(
@@ -117,4 +81,25 @@ module.exports.login = (req, res, next) => {
         });
     })
     .catch(next);
+};
+
+module.exports.createUser = (req, res, next) => {
+  const { email, password, name } = req.body;
+  bcrypt.hash(password, 10).then((hash) => User.create({
+    name, email, password: hash,
+  })
+    .then((user) => {
+      const newUser = user.toObject();
+      delete newUser.password;
+      res.send(newUser);
+    })
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные'));
+      }
+      if (error.code === 11000) {
+        next(new ConflictError('При регистрации указан email, который уже существует на сервере'));
+      }
+      return next(error);
+    }));
 };
