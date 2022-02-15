@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
-// const cors = require('cors');
+const cors = require('cors');
 
 const { router } = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -26,7 +26,7 @@ const CORS_WHITELIST = [
   'http://api.movies.ex.nomoredomains.rocks',
 ];
 
-/* const corsOption = {
+const corsOption = {
   credentials: true,
   optionsSuccessStatus: 204,
   origin: function checkCorsList(origin, callback) {
@@ -38,27 +38,7 @@ const CORS_WHITELIST = [
   },
 };
 
-app.use('*', cors(corsOption)); */
-
-app.use((req, res, next) => {
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-
-  const { origin } = req.headers;
-  const { method } = req;
-  const requestHeaders = req.headers['access-control-request-headers'];
-
-  if (CORS_WHITELIST.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.status(200).send();
-  }
-
-  return next();
-});
+app.use('*', cors(corsOption));
 
 app.use(requestLogger);
 app.use(limiter);
