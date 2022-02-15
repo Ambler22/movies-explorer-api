@@ -20,13 +20,14 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 
 const CORS_WHITELIST = [
   'http://localhost:3000',
-  // 'https://dom.rom.nomoredomains.rocks',
-  // 'http://dom.rom.nomoredomains.rocks',
+  'https://movies.ex.nomoredomains.rocks',
+  'http://movies.ex.nomoredomains.rocks',
 ];
 
 const corsOption = {
   credentials: true,
   optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   origin: function checkCorsList(origin, callback) {
     if (CORS_WHITELIST.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
