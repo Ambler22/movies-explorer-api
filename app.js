@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
 });
 
-const CORS_WHITELIST = [
+/* const CORS_WHITELIST = [
   'http://localhost:3000',
   'https://movies.ex.nomoredomains.rocks',
   'http://movies.ex.nomoredomains.rocks',
@@ -36,7 +36,20 @@ const corsOption = {
   },
 };
 
-app.use(cors(corsOption));
+app.use('*', cors(corsOption)); */
+
+const LEGAL_CORS = [
+  'http://178.154.221.199:3001',
+  'http://api.movies.ex.nomoredomains.rocks',
+  'http://movies.ex.nomoredomains.rocks',
+  'https://movies.ex.nomoredomains.rocks',
+  'http://localhost:3000',
+];
+
+app.use('*', cors({
+  origin: LEGAL_CORS,
+  credentials: true,
+}));
 
 app.use(requestLogger);
 app.use(limiter);
