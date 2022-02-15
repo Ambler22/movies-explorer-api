@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
 });
 
-/* const CORS_WHITELIST = [
+const CORS_WHITELIST = [
   'http://localhost:3000',
   'https://movies.ex.nomoredomains.rocks',
   'http://movies.ex.nomoredomains.rocks',
@@ -27,7 +27,6 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 const corsOption = {
   credentials: true,
   optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   origin: function checkCorsList(origin, callback) {
     if (CORS_WHITELIST.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
@@ -35,26 +34,10 @@ const corsOption = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-}; */
-
-const options = {
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://movies.ex.nomoredomains.rocks',
-    'http://movies.ex.nomoredomains.rocks',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
 };
 
-const corsOption = cors(options);
+app.use('*', cors(corsOption));
 
-app.use('*', corsOption);
-// app.use(cors(corsOption));
 app.use(requestLogger);
 app.use(limiter);
 app.use(express.json());
