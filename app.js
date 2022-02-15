@@ -23,6 +23,7 @@ const CORS_WHITELIST = [
   'http://movies.ex.nomoredomains.rocks',
   'https://movies.ex.nomoredomains.rocks',
   'http://localhost:3000',
+  'http://localhost:3001',
 ];
 
 /* const corsOption = {
