@@ -26,7 +26,7 @@ const CORS_WHITELIST = [
   'http://localhost:3001',
 ];
 
-/* const corsOption = {
+const corsOption = {
   credentials: true,
   optionsSuccessStatus: 204,
   origin: function checkCorsList(origin, callback) {
@@ -38,7 +38,7 @@ const CORS_WHITELIST = [
   },
 };
 
-app.use('*', cors(corsOption)); */
+app.use(cors(corsOption));
 
 /* const LEGAL_CORS = [
   'http://178.154.221.199:3001',
@@ -48,10 +48,10 @@ app.use('*', cors(corsOption)); */
   'http://localhost:3000',
 ]; */
 
-app.use('*', cors({
+/* app.use(cors({
   origin: CORS_WHITELIST,
   credentials: true,
-}));
+})); */
 
 app.use(requestLogger);
 app.use(limiter);
