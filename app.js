@@ -36,7 +36,7 @@ const corsOption = {
   },
 };
 
-app.use('*', cors(corsOption));
+app.use(cors(corsOption));
 
 app.use(requestLogger);
 app.use(limiter);
