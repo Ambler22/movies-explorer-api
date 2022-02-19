@@ -25,6 +25,7 @@ const LEGAL_CORS = [
   'https://movies.ex.nomoredomains.rocks',
   'http://api.movies.ex.nomoredomains.rocks',
   'https://api.movies.ex.nomoredomains.rocks',
+  'http://84.201.175.89:80',
 ];
 
 app.use('*', cors({
