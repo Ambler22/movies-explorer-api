@@ -11,7 +11,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const error = require('./middlewares/error');
 const { limiter } = require('./middlewares/limiter');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
@@ -21,6 +21,7 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 const LEGAL_CORS = [
   'http://localhost:3000',
   'http://127.0.0.1:3000',
+  'http://localhost:3001',
   'http://movies.ex.nomoredomains.rocks',
   'https://movies.ex.nomoredomains.rocks',
   'http://api.movies.ex.nomoredomains.rocks',
