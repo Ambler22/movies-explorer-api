@@ -1,0 +1,44 @@
+{
+  "name": "movies-explorer",
+  "version": "1.0.0",
+  "description": "movies-explorer-api",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ambler22/movies-explorer-api.git"
+  },
+  "author": "Drozdov Roman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ambler22/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Ambler22/movies-explorer-api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "celebrate": "^15.0.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.5.1",
+    "express-winston": "^4.2.0",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.13",
+    "nodemon": "^2.0.15",
+    "validator": "^13.7.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-plugin-react": "^7.27.1"
+  }
+}
